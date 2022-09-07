@@ -1,0 +1,15 @@
+{
+  "name": "tree-sitter-bass",
+  "version": "0.10.0",
+  "description": "Bass grammar for Tree-sitter.",
+  "main": "grammar.js",
+  "repository": "https://github.com/vito/tree-sitter-bass",
+  "author": "Alex Suraci",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.2"
+  }
+}

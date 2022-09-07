@@ -1,0 +1,22 @@
+===
+Scalars
+===
+
+_
+null
+true
+false
+123
+"foo"
+"foo \" bar"
+
+---
+
+(source
+  (ignore)
+  (null)
+  (bool)
+  (bool)
+  (int)
+  (string)
+  (string))

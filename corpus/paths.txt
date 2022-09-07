@@ -1,0 +1,18 @@
+===
+Paths
+===
+
+.cmd
+./file
+./dir/
+./sub/file
+./sub/dir/
+
+---
+
+(source
+  (command)
+  (path)
+  (path)
+  (path)
+  (path))

@@ -1,0 +1,19 @@
+===
+Keyword paths
+===
+
+foo:bar
+foo:bar:baz
+
+---
+
+(source
+  (subbind
+    form: (symbol)
+    keyword: (keyword))
+  (subbind
+    form:
+      (subbind
+        form: (symbol)
+        keyword: (keyword))
+    keyword: (keyword)))

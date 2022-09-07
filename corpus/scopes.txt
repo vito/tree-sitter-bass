@@ -1,0 +1,31 @@
+===
+Scopes
+===
+
+{}
+{:a 1}
+{:a 1 :b 2}
+{parent}
+{parent1 parent2 :a 1 :b 2}
+
+---
+
+(source
+  (scope)
+  (scope
+    (keyword)
+    (int))
+  (scope
+    (keyword)
+    (int)
+    (keyword)
+    (int))
+  (scope
+    (symbol))
+  (scope
+    (symbol)
+    (symbol)
+    (keyword)
+    (int)
+    (keyword)
+    (int)))

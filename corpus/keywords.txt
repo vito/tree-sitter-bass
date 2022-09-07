@@ -1,0 +1,14 @@
+===
+Keywords
+===
+
+:foo
+:foo.bar
+:foo-bar
+
+---
+
+(source
+  (keyword)
+  (keyword)
+  (keyword))
