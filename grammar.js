@@ -4,7 +4,7 @@ const PREC = {
 };
 
 const SYMBOL_HEAD =
-  /[^\t\n\v\f\r \u0085\u00A0,()\[\]{};^/:.0-9]/;
+  /[^\t\n\v\f\r \u0085\u00A0,"()\[\]{};^/:.0-9]/;
 
 const SYMBOL_TAIL =
   choice(SYMBOL_HEAD, /[.0-9]/);
@@ -61,19 +61,19 @@ module.exports = grammar({
     keyword: _ =>
       token(seq(":", SYMBOL)),
 
-    string: _ =>
-      token(
-        seq('"',
-          repeat(/[^"\\]/),
-          repeat(
-            seq(
-              "\\",
-              /["n\\tafrbv]/,
-              repeat(/[^"\\]/),
-            ),
-          ),
-          '"'),
+    string_escape: _ =>
+      token(seq("\\", /["n\\tafrbv]/)),
+
+    string: $ => seq(
+      '"',
+      repeat(
+        choice(
+          /[^"\\]+/,
+          field("escape", $.string_escape),
+        ),
       ),
+      '"',
+    ),
 
     ignore: _ =>
       token('_'),
@@ -93,13 +93,16 @@ module.exports = grammar({
     path: _ =>
       token(seq(".", SUBPATH)),
 
-    _subpath: _ =>
+    relpath: _ =>
       token(SUBPATH),
 
     subpath: $ =>
       prec.left(
         PREC.PATH,
-        seq(field("form", choice($.symbol, $.subbind)), field("subpath", $._subpath)),
+        seq(
+          field("form", choice($.symbol, $.subbind)),
+          field("path", $.relpath),
+        ),
       ),
 
     subbind: $ =>
@@ -123,24 +126,21 @@ module.exports = grammar({
     list: $ =>
       seq(
         field('open', "("),
-        repeat(choice(field('value', $._form),
-          $._gap)),
+        repeat(choice(field('value', $._form), $._gap)),
         field('close', ")"),
       ),
 
     scope: $ =>
       seq(
         field('open', "{"),
-        repeat(choice(field('value', $._form),
-          $._gap)),
+        repeat(choice(field('value', $._form), $._gap)),
         field('close', "}"),
       ),
 
     cons: $ =>
       seq(
         field('open', "["),
-        repeat(choice(field('value', $._form),
-          $._gap)),
+        repeat(choice(field('value', $._form), $._gap)),
         field('close', "]"),
       ),
   }

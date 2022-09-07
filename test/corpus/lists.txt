@@ -1,0 +1,25 @@
+===
+Lists
+===
+
+()
+(a 1)
+(a & 1)
+(a 1 :b 2)
+
+---
+
+(source
+  (list)
+  (list
+    (symbol)
+    (int))
+  (list
+    (symbol)
+    (symbol)
+    (int))
+  (list
+    (symbol)
+    (int)
+    (keyword)
+    (int)))

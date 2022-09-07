@@ -539,6 +539,22 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {
+      "escape": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "string_escape",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "subbind",
     "named": true,
     "fields": {
@@ -585,8 +601,22 @@
             "named": true
           }
         ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "relpath",
+            "named": true
+          }
+        ]
       }
     }
+  },
+  {
+    "type": "\"",
+    "named": false
   },
   {
     "type": "(",
@@ -641,7 +671,11 @@
     "named": true
   },
   {
-    "type": "string",
+    "type": "relpath",
+    "named": true
+  },
+  {
+    "type": "string_escape",
     "named": true
   },
   {

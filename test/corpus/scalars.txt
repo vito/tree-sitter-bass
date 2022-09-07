@@ -19,4 +19,4 @@ false
   (bool)
   (int)
   (string)
-  (string))
+  (string (string_escape)))

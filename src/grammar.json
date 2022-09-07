@@ -159,7 +159,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                 },
                 {
                   "type": "REPEAT",
@@ -168,7 +168,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                       },
                       {
                         "type": "PATTERN",
@@ -183,51 +183,54 @@
         ]
       }
     },
-    "string": {
+    "string_escape": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "STRING",
-            "value": "\""
+            "value": "\\"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\"\\\\]"
-            }
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\\"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[\"n\\\\tafrbv]"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "STRING",
-            "value": "\""
+            "type": "PATTERN",
+            "value": "[\"n\\\\tafrbv]"
           }
         ]
       }
+    },
+    "string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\"\\\\]+"
+              },
+              {
+                "type": "FIELD",
+                "name": "escape",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "string_escape"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
     },
     "ignore": {
       "type": "TOKEN",
@@ -266,7 +269,7 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+            "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
           },
           {
             "type": "REPEAT",
@@ -275,7 +278,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                 },
                 {
                   "type": "PATTERN",
@@ -303,7 +306,7 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                 },
                 {
                   "type": "REPEAT",
@@ -312,7 +315,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                       },
                       {
                         "type": "PATTERN",
@@ -355,7 +358,7 @@
                         "members": [
                           {
                             "type": "PATTERN",
-                            "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                            "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                           },
                           {
                             "type": "REPEAT",
@@ -364,7 +367,7 @@
                               "members": [
                                 {
                                   "type": "PATTERN",
-                                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                                 },
                                 {
                                   "type": "PATTERN",
@@ -387,7 +390,7 @@
         ]
       }
     },
-    "_subpath": {
+    "relpath": {
       "type": "TOKEN",
       "content": {
         "type": "REPEAT1",
@@ -408,7 +411,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                       },
                       {
                         "type": "REPEAT",
@@ -417,7 +420,7 @@
                           "members": [
                             {
                               "type": "PATTERN",
-                              "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,()\\[\\]{};^/:.0-9]"
+                              "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
                             },
                             {
                               "type": "PATTERN",
@@ -463,10 +466,10 @@
           },
           {
             "type": "FIELD",
-            "name": "subpath",
+            "name": "path",
             "content": {
               "type": "SYMBOL",
-              "name": "_subpath"
+              "name": "relpath"
             }
           }
         ]

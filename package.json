@@ -11,5 +11,12 @@
   },
   "devDependencies": {
     "typescript": "^4.8.2"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.bass",
+      "file-types": ["bass"],
+      "first-line-regex": "#!.*\\bbass$"
+    }
+  ]
 }

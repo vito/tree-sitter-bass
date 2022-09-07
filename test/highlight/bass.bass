@@ -1,0 +1,76 @@
+(foo & bar)
+; <- punctuation.bracket
+; ^ function
+;    ^ operator
+;       ^ variable
+;         ^ punctuation.bracket
+
+foo
+; <- variable
+
+&
+; <- variable
+
+_
+; <- constant.builtin
+
+true
+; <- constant.builtin
+
+false
+; <- constant.builtin
+
+null
+; <- constant.builtin
+
+"foo"
+; <- string
+
+"foo\nbar"
+; <- string
+;    ^ escape
+
+[foo & bar]
+; <- punctuation.bracket
+; ^ variable
+;    ^ operator
+;       ^ variable
+;         ^ punctuation.bracket
+
+{foo bar}
+; <- punctuation.bracket
+; ^ variable
+;     ^ variable
+;       ^ punctuation.bracket
+
+; foo
+; <- comment
+
+.bash
+; <- string.special.path
+
+./foo
+; <- string.special.path
+
+foo/bar
+; <- variable
+;   ^ string.special.path
+
+:foo
+; <- constant
+
+foo:bar
+; <- variable
+;  ^ constant
+
+foo:bar:baz
+; <- variable
+;  ^ constant
+;      ^ constant
+
+foo:bar/baz/buzz
+; <- variable
+;  ^ constant
+;      ^ string.special.path
+;        ^ string.special.path
+;            ^ string.special.path
