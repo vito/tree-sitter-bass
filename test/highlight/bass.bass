@@ -88,16 +88,30 @@ foo:bar/baz/buzz
 ; ^ define
 
 (use (.strings))
-; ^ keyword.control.import
+; ^ include
 
 [use (.strings)]
-; ^ keyword.control.import
+; ^ include
+
+(load (.strings))
+; ^ include
+
+[load (.strings)]
+; ^ include
+
+(import (load (.strings)))
+; ^ include
+;        ^ include
+
+[import (load (.strings))]
+; ^ include
+;        ^ include
 
 (if a b c)
-; ^ keyword.builtin
+; ^ conditional
 
 [if a b c]
-; ^ keyword.builtin
+; ^ conditional
 
 (when a b c)
 ; ^ conditional

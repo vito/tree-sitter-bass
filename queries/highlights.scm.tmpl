@@ -23,22 +23,6 @@
 
 (keyword) @constant.other
 
-(
-  (list
-    .
-    (symbol) @keyword.control.import
-    (#match? @keyword.control.import "^(use|import)$"))
-  (set! "priority" 105)
-)
-
-(
-  (cons
-    .
-    (symbol) @keyword.control.import
-    (#match? @keyword.control.import "^(use|import)$"))
-  (set! "priority" 105)
-)
-
 {{range .Classes}}
 (
   (list

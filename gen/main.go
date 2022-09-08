@@ -70,6 +70,16 @@ func main() {
 				Highlight: "keyword.builtin",
 				Bindings:  class.Bindings,
 			})
+		case hl.Repeat:
+			classes = append(classes, Classification{
+				Highlight: "repeat",
+				Bindings:  class.Bindings,
+			})
+		case hl.Import:
+			classes = append(classes, Classification{
+				Highlight: "include",
+				Bindings:  class.Bindings,
+			})
 		case hl.Var:
 			// XXX: nothing does this atm?
 		}
