@@ -1,39 +1,42 @@
-(foo & bar)
-; <- punctuation.bracket
-; ^ function
-;    ^ operator
-;       ^ variable
-;         ^ punctuation.bracket
-
-foo
-; <- variable
-
-&
-; <- variable
+; see https://www.sublimetext.com/docs/scope_naming.html
+;
+; see https://github.com/nvim-treesitter/nvim-treesitter/blob/master/lua/nvim-treesitter/highlight.lua
 
 _
-; <- constant.builtin
+; <- constant.language
 
 true
-; <- constant.builtin
+; <- constant.language
 
 false
-; <- constant.builtin
+; <- constant.language
 
 null
-; <- constant.builtin
+; <- constant.language
+
+42
+; <- constant.numeric
+
+:foo
+; <- constant.other
 
 "foo"
 ; <- string
 
 "foo\nbar"
 ; <- string
-;    ^ escape
+;    ^ constant.character.escape
+
+(foo & bar)
+; <- punctuation.bracket
+; ^ function
+;    ^ keyword.operator
+;         ^ punctuation.bracket
 
 [foo & bar]
 ; <- punctuation.bracket
 ; ^ variable
-;    ^ operator
+;    ^ keyword.operator
 ;       ^ variable
 ;         ^ punctuation.bracket
 
@@ -44,33 +47,86 @@ null
 ;       ^ punctuation.bracket
 
 ; foo
-; <- comment
+; <- comment.line
 
 .bash
-; <- string.special.path
+; <- namespace
 
 ./foo
-; <- string.special.path
+; <- namespace
 
 foo/bar
 ; <- variable
-;   ^ string.special.path
-
-:foo
-; <- constant
+;   ^ namespace
 
 foo:bar
 ; <- variable
-;  ^ constant
+;  ^ constant.other
 
 foo:bar:baz
 ; <- variable
-;  ^ constant
-;      ^ constant
+;  ^ constant.other
+;      ^ constant.other
 
 foo:bar/baz/buzz
 ; <- variable
-;  ^ constant
-;      ^ string.special.path
-;        ^ string.special.path
-;            ^ string.special.path
+;  ^ constant.other
+;      ^ namespace
+;        ^ namespace
+;            ^ namespace
+
+(def foo 42)
+; ^ define
+
+[def foo 42]
+; ^ define
+
+(defn foo 42)
+; ^ define
+
+[defn foo 42]
+; ^ define
+
+(use (.strings))
+; ^ keyword.control.import
+
+[use (.strings)]
+; ^ keyword.control.import
+
+(if a b c)
+; ^ keyword.builtin
+
+[if a b c]
+; ^ keyword.builtin
+
+(when a b c)
+; ^ conditional
+
+[when a b c]
+; ^ conditional
+
+(cond a b c)
+; ^ conditional
+
+[cond a b c]
+; ^ conditional
+
+(case a b c)
+; ^ conditional
+
+[case a b c]
+; ^ conditional
+
+(-> hi foo (bar baz) quux)
+; ^ function.macro
+;   ^ variable.parameter
+;      ^ function
+;           ^ function
+;                    ^ function
+
+(-> 42 foo (bar baz) quux)
+; ^ function.macro
+;   ^ constant.numeric
+;      ^ function
+;           ^ function
+;                    ^ function

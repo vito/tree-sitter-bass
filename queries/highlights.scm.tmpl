@@ -1,0 +1,100 @@
+; NOTE: tree-sitter test and neovim disagree on precedence/priority.
+;
+; the tests desire more specific highlights to be declared first, whereas for
+; neovim this would mean applying their highlights *over* the more specific
+; ones.
+;
+; to meet in the middle, this query favors the tests and manually sets
+; precedence where needed to appease neovim.
+
+(comment) @comment.line
+
+["(" ")" "[" "]" "{" "}"] @punctuation.bracket
+
+[(ignore) (null) (bool)] @constant.language
+
+(int) @constant.numeric @number
+
+(string (string_escape) @constant.character.escape) @string
+
+(string) @string
+
+[(command) (path) (relpath)] @namespace
+
+(keyword) @constant.other
+
+(
+  (list
+    .
+    (symbol) @keyword.control.import
+    (#match? @keyword.control.import "^(use|import)$"))
+  (set! "priority" 105)
+)
+
+(
+  (cons
+    .
+    (symbol) @keyword.control.import
+    (#match? @keyword.control.import "^(use|import)$"))
+  (set! "priority" 105)
+)
+
+{{range .Classes}}
+(
+  (list
+    .
+    (symbol) @{{.Highlight}}
+    {{. | match}})
+  (set! "priority" 105)
+)
+(
+  (cons
+    .
+    (symbol) @{{.Highlight}}
+    {{. | match}})
+  (set! "priority" 105)
+)
+{{end}}
+
+(
+  (list
+    (symbol) @keyword.operator
+    (#match? @keyword.operator "&"))
+  (set! "priority" 105)
+)
+
+(
+  (cons
+    (symbol) @keyword.operator
+    (#match? @keyword.operator "&"))
+  (set! "priority" 105)
+)
+
+(
+  (list .
+        (symbol) @function.macro
+        (#eq? @function.macro "->")
+        .
+        (symbol) @variable.parameter
+        (symbol) @function)
+  (set! "priority" 105)
+)
+
+(
+  (list .
+        (symbol) @function.macro
+        (#eq? @function.macro "->")
+        .
+        (_)
+        (symbol) @function)
+  (set! "priority" 105)
+)
+
+; first symbol in a list form is a combiner call
+(list . (symbol) @function)
+
+; be conservative; we don't want to just call every single symbol a variable
+(cons (symbol) @variable)
+(scope (symbol) @variable)
+(subpath form: (symbol) @variable)
+(subbind form: (symbol) @variable)

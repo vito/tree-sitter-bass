@@ -1,3 +1,5 @@
 .direnv
 node_modules
 build
+go.work
+Session.vim
