@@ -1,11 +1,4 @@
-; NOTE: tree-sitter test and neovim disagree on precedence/priority.
-;
-; the tests desire more specific highlights to be declared first, whereas for
-; neovim this would mean applying their highlights *over* the more specific
-; ones.
-;
-; to meet in the middle, this query favors the tests and manually sets
-; precedence where needed to appease neovim.
+; GENERATED VIA https://github.com/vito/tree-sitter-bass
 
 (comment) @comment.line
 
