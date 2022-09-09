@@ -63,6 +63,15 @@ func main() {
 	tmpl, err := template.New("stdin").Funcs(template.FuncMap{
 		"list":   formatList,
 		"commas": commaList,
+		"hl": func(test, nvim, helix string) string {
+			if isNeovim {
+				return nvim
+			} else if isHelix {
+				return helix
+			} else {
+				return test
+			}
+		},
 	}).Parse(string(content))
 	if err != nil {
 		log.Fatalf("parse template: %s", err)
@@ -82,7 +91,7 @@ func main() {
 			classes = append(classes, Classification{
 				Tests:    "define",
 				Neovim:   "define",
-				Helix:    "keyword.control.storage",
+				Helix:    "label",
 				Bindings: class.Bindings,
 			})
 		case hl.Fn:

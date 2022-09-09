@@ -11,116 +11,89 @@
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-[(ignore) (null) (bool)] @constant.language
+[(ignore) (null) (bool)] @constant.builtin
 
-(int) @constant.numeric @number
+(int) @constant.numeric
 
-(string (string_escape) @constant.character.escape) @string
+(string (string_escape) @constant.character.escape)
 
 (string) @string
 
 [(command) (path) (relpath)] @namespace
 
-(keyword) @constant.other
+(keyword) @string.special.symbol
 
 
-(
-  (list . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
-  (set! "priority" 105)
-)
+((list . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
-  (set! "priority" 105)
-)
+((cons . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @keyword.control.storage (#match? @keyword.control.storage "^(def|defop|defn)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @keyword.control.storage (#match? @keyword.control.storage "^(def|defop|defn)$"))
-  (set! "priority" 105)
-)
+((list . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @function.builtin (#match? @function.builtin "^(dump|mkfs|json|log|error|now|cons|wrap|unwrap|eval|make-scope|bind|meta|with-meta|null\\?|ignore\\?|boolean\\?|number\\?|string\\?|symbol\\?|scope\\?|sink\\?|source\\?|list\\?|pair\\?|applicative\\?|operative\\?|combiner\\?|path\\?|empty\\?|thunk\\?|\\+|\\*|quot|-|max|min|=|>|>=|<|<=|list->source|across|emit|next|reduce-kv|assoc|symbol->string|string->symbol|str|substring|trim|scope->list|string->fs-path|string->cmd-path|string->dir|subpath|path-name|path-stem|with-image|with-dir|with-args|with-cmd|with-stdin|with-env|with-insecure|with-label|with-port|with-tls|with-mount|thunk-cmd|thunk-args|resolve|start|addr|wait|read|cache-dir|binds\\?|recall-memo|store-memo|mask|list|list\\*|first|rest|length|second|third|map|map-pairs|foldr|foldl|append|filter|conj|list->scope|merge|apply|id|always|vals|keys|memo|succeeds\\?|run|last|take|insecure!|from|cd|wrap-cmd|mkfile|path-base|not)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @function.builtin (#match? @function.builtin "^(dump|mkfs|json|log|error|now|cons|wrap|unwrap|eval|make-scope|bind|meta|with-meta|null\\?|ignore\\?|boolean\\?|number\\?|string\\?|symbol\\?|scope\\?|sink\\?|source\\?|list\\?|pair\\?|applicative\\?|operative\\?|combiner\\?|path\\?|empty\\?|thunk\\?|\\+|\\*|quot|-|max|min|=|>|>=|<|<=|list->source|across|emit|next|reduce-kv|assoc|symbol->string|string->symbol|str|substring|trim|scope->list|string->fs-path|string->cmd-path|string->dir|subpath|path-name|path-stem|with-image|with-dir|with-args|with-cmd|with-stdin|with-env|with-insecure|with-label|with-port|with-tls|with-mount|thunk-cmd|thunk-args|resolve|start|addr|wait|read|cache-dir|binds\\?|recall-memo|store-memo|mask|list|list\\*|first|rest|length|second|third|map|map-pairs|foldr|foldl|append|filter|conj|list->scope|merge|apply|id|always|vals|keys|memo|succeeds\\?|run|last|take|insecure!|from|cd|wrap-cmd|mkfile|path-base|not)$"))
-  (set! "priority" 105)
-)
+((cons . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @function.macro (#match? @function.macro "^(op|fn|current-scope|quote|let|provide|module|or|and|->|curryfn|for|\\$|linux)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @function.macro (#match? @function.macro "^(op|fn|current-scope|quote|let|provide|module|or|and|->|curryfn|for|\\$|linux)$"))
-  (set! "priority" 105)
-)
+((list . (symbol) @label (#match? @label "^(def|defop|defn)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @keyword.builtin (#match? @keyword.builtin "^(do|doc)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @keyword.builtin (#match? @keyword.builtin "^(do|doc)$"))
-  (set! "priority" 105)
-)
+((cons . (symbol) @label (#match? @label "^(def|defop|defn)$"))
+ (set! "priority" 105))
 
-(
-  (list . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
-  (set! "priority" 105)
-)
+((list . (symbol) @function.builtin (#match? @function.builtin "^(dump|mkfs|json|log|error|now|cons|wrap|unwrap|eval|make-scope|bind|meta|with-meta|null\\?|ignore\\?|boolean\\?|number\\?|string\\?|symbol\\?|scope\\?|sink\\?|source\\?|list\\?|pair\\?|applicative\\?|operative\\?|combiner\\?|path\\?|empty\\?|thunk\\?|\\+|\\*|quot|-|max|min|=|>|>=|<|<=|list->source|across|emit|next|reduce-kv|assoc|symbol->string|string->symbol|str|substring|trim|scope->list|string->fs-path|string->cmd-path|string->dir|subpath|path-name|path-stem|with-image|with-dir|with-args|with-cmd|with-stdin|with-env|with-insecure|with-label|with-port|with-tls|with-mount|thunk-cmd|thunk-args|resolve|start|addr|wait|read|cache-dir|binds\\?|recall-memo|store-memo|mask|list|list\\*|first|rest|length|second|third|map|map-pairs|foldr|foldl|append|filter|conj|list->scope|merge|apply|id|always|vals|keys|memo|succeeds\\?|run|last|take|insecure!|from|cd|wrap-cmd|mkfile|path-base|not)$"))
+ (set! "priority" 105))
+
+((cons . (symbol) @function.builtin (#match? @function.builtin "^(dump|mkfs|json|log|error|now|cons|wrap|unwrap|eval|make-scope|bind|meta|with-meta|null\\?|ignore\\?|boolean\\?|number\\?|string\\?|symbol\\?|scope\\?|sink\\?|source\\?|list\\?|pair\\?|applicative\\?|operative\\?|combiner\\?|path\\?|empty\\?|thunk\\?|\\+|\\*|quot|-|max|min|=|>|>=|<|<=|list->source|across|emit|next|reduce-kv|assoc|symbol->string|string->symbol|str|substring|trim|scope->list|string->fs-path|string->cmd-path|string->dir|subpath|path-name|path-stem|with-image|with-dir|with-args|with-cmd|with-stdin|with-env|with-insecure|with-label|with-port|with-tls|with-mount|thunk-cmd|thunk-args|resolve|start|addr|wait|read|cache-dir|binds\\?|recall-memo|store-memo|mask|list|list\\*|first|rest|length|second|third|map|map-pairs|foldr|foldl|append|filter|conj|list->scope|merge|apply|id|always|vals|keys|memo|succeeds\\?|run|last|take|insecure!|from|cd|wrap-cmd|mkfile|path-base|not)$"))
+ (set! "priority" 105))
+
+((list . (symbol) @function.macro (#match? @function.macro "^(op|fn|current-scope|quote|let|provide|module|or|and|->|curryfn|for|\\$|linux)$"))
+ (set! "priority" 105))
+
+((cons . (symbol) @function.macro (#match? @function.macro "^(op|fn|current-scope|quote|let|provide|module|or|and|->|curryfn|for|\\$|linux)$"))
+ (set! "priority" 105))
+
+((list . (symbol) @keyword.builtin (#match? @keyword.builtin "^(do|doc)$"))
+ (set! "priority" 105))
+
+((cons . (symbol) @keyword.builtin (#match? @keyword.builtin "^(do|doc)$"))
+ (set! "priority" 105))
+
+((list . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
+ (set! "priority" 105))
+
+((cons . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
+ (set! "priority" 105))
 
 
-(
-  (list
-    (symbol) @keyword.operator
-    (#match? @keyword.operator "&"))
-  (set! "priority" 105)
-)
+((list
+   (symbol) @operator
+   (#match? @operator "&"))
+ (set! "priority" 105))
 
-(
-  (cons
-    (symbol) @keyword.operator
-    (#match? @keyword.operator "&"))
-  (set! "priority" 105)
-)
+((cons
+   (symbol) @operator
+   (#match? @operator "&"))
+ (set! "priority" 105))
 
-(
-  (list .
-        (symbol) @function.macro
-        (#eq? @function.macro "->")
-        .
-        (symbol) @variable.parameter
-        (symbol) @function)
-  (set! "priority" 105)
-)
+((list
+   .
+   (symbol) @function.macro
+   (#eq? @function.macro "->")
+   .
+   (symbol) @variable.parameter
+   (symbol) @function)
+ (set! "priority" 105))
 
-(
-  (list .
-        (symbol) @function.macro
-        (#eq? @function.macro "->")
-        .
-        (_)
-        (symbol) @function)
-  (set! "priority" 105)
-)
+((list
+   .
+   (symbol) @function.macro
+   (#eq? @function.macro "->")
+   .
+   (_)
+   (symbol) @function)
+ (set! "priority" 105))
 
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)

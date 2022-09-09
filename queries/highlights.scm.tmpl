@@ -11,62 +11,53 @@
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-[(ignore) (null) (bool)] @constant.language
+[(ignore) (null) (bool)] @constant.builtin
 
-(int) @constant.numeric @number
+(int) @{{hl "constant.numeric" "number" "constant.numeric"}}
 
-(string (string_escape) @constant.character.escape) @string
+(string (string_escape) @{{hl "constant.character.escape" "string.escape" "constant.character.escape"}})
 
 (string) @string
 
 [(command) (path) (relpath)] @namespace
 
-(keyword) @constant.other
+(keyword) @string.special.symbol
 
 {{range .Classes}}
-(
-  (list . (symbol) {{.}})
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) {{.}})
-  (set! "priority" 105)
-)
+((list . (symbol) {{.}})
+ (set! "priority" 105))
+
+((cons . (symbol) {{.}})
+ (set! "priority" 105))
 {{end}}
 
-(
-  (list
-    (symbol) @keyword.operator
-    (#match? @keyword.operator "&"))
-  (set! "priority" 105)
-)
+((list
+   (symbol) @operator
+   (#match? @operator "&"))
+ (set! "priority" 105))
 
-(
-  (cons
-    (symbol) @keyword.operator
-    (#match? @keyword.operator "&"))
-  (set! "priority" 105)
-)
+((cons
+   (symbol) @operator
+   (#match? @operator "&"))
+ (set! "priority" 105))
 
-(
-  (list .
-        (symbol) @function.macro
-        (#eq? @function.macro "->")
-        .
-        (symbol) @variable.parameter
-        (symbol) @function)
-  (set! "priority" 105)
-)
+((list
+   .
+   (symbol) @function.macro
+   (#eq? @function.macro "->")
+   .
+   (symbol) @variable.parameter
+   (symbol) @function)
+ (set! "priority" 105))
 
-(
-  (list .
-        (symbol) @function.macro
-        (#eq? @function.macro "->")
-        .
-        (_)
-        (symbol) @function)
-  (set! "priority" 105)
-)
+((list
+   .
+   (symbol) @function.macro
+   (#eq? @function.macro "->")
+   .
+   (_)
+   (symbol) @function)
+ (set! "priority" 105))
 
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)

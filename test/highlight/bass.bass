@@ -3,22 +3,22 @@
 ; see https://github.com/nvim-treesitter/nvim-treesitter/blob/master/lua/nvim-treesitter/highlight.lua
 
 _
-; <- constant.language
+; <- constant.builtin
 
 true
-; <- constant.language
+; <- constant.builtin
 
 false
-; <- constant.language
+; <- constant.builtin
 
 null
-; <- constant.language
+; <- constant.builtin
 
 42
 ; <- constant.numeric
 
 :foo
-; <- constant.other
+; <- string.special.symbol
 
 "foo"
 ; <- string
@@ -30,13 +30,13 @@ null
 (foo & bar)
 ; <- punctuation.bracket
 ; ^ function
-;    ^ keyword.operator
+;    ^ operator
 ;         ^ punctuation.bracket
 
 [foo & bar]
 ; <- punctuation.bracket
 ; ^ variable
-;    ^ keyword.operator
+;    ^ operator
 ;       ^ variable
 ;         ^ punctuation.bracket
 
@@ -61,16 +61,16 @@ foo/bar
 
 foo:bar
 ; <- variable
-;  ^ constant.other
+;  ^ string.special.symbol
 
 foo:bar:baz
 ; <- variable
-;  ^ constant.other
-;      ^ constant.other
+;  ^ string.special.symbol
+;      ^ string.special.symbol
 
 foo:bar/baz/buzz
 ; <- variable
-;  ^ constant.other
+;  ^ string.special.symbol
 ;      ^ namespace
 ;        ^ namespace
 ;            ^ namespace
