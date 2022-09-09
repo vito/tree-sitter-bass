@@ -15,14 +15,41 @@ import (
 	"github.com/vito/bass/pkg/hl"
 )
 
+var isNeovim = os.Getenv("NEOVIM") != ""
+var isHelix = os.Getenv("HELIX") != ""
+
 type BassHL struct {
 	LispWords []bass.Symbol
 	Classes   []Classification
 }
 
 type Classification struct {
-	Highlight string
-	Bindings  []bass.Symbol
+	Tests    string
+	Neovim   string
+	Helix    string
+	Bindings []bass.Symbol
+}
+
+func (cls Classification) String() string {
+	return fmt.Sprintf("@%s %s", cls.Highlight(), cls.Matcher())
+}
+
+func (cls Classification) Highlight() string {
+	hl := cls.Tests
+	if isNeovim && cls.Neovim != "" {
+		hl = cls.Neovim
+	} else if isHelix && cls.Helix != "" {
+		hl = cls.Helix
+	}
+	return hl
+}
+
+func (cls Classification) Matcher() string {
+	if isNeovim {
+		return queryAnyOf(cls)
+	} else {
+		return queryMatch(cls)
+	}
 }
 
 func main() {
@@ -36,7 +63,6 @@ func main() {
 	tmpl, err := template.New("stdin").Funcs(template.FuncMap{
 		"list":   formatList,
 		"commas": commaList,
-		"match":  match,
 	}).Parse(string(content))
 	if err != nil {
 		log.Fatalf("parse template: %s", err)
@@ -47,38 +73,52 @@ func main() {
 		switch class.Class {
 		case hl.Cond:
 			classes = append(classes, Classification{
-				Highlight: "conditional",
-				Bindings:  class.Bindings,
+				Tests:    "conditional",
+				Neovim:   "conditional",
+				Helix:    "keyword.control.conditional",
+				Bindings: class.Bindings,
 			})
 		case hl.Def:
 			classes = append(classes, Classification{
-				Highlight: "define",
-				Bindings:  class.Bindings,
+				Tests:    "define",
+				Neovim:   "define",
+				Helix:    "keyword.control.storage",
+				Bindings: class.Bindings,
 			})
 		case hl.Fn:
 			classes = append(classes, Classification{
-				Highlight: "function.builtin",
-				Bindings:  class.Bindings,
+				Tests:    "function.builtin",
+				Neovim:   "function.builtin",
+				Helix:    "function.builtin",
+				Bindings: class.Bindings,
 			})
 		case hl.Op:
 			classes = append(classes, Classification{
-				Highlight: "function.macro",
-				Bindings:  class.Bindings,
+				Tests:    "function.macro",
+				Neovim:   "function.macro",
+				Helix:    "function.macro",
+				Bindings: class.Bindings,
 			})
 		case hl.Special:
 			classes = append(classes, Classification{
-				Highlight: "keyword.builtin",
-				Bindings:  class.Bindings,
+				Tests:    "keyword.builtin",
+				Neovim:   "keyword.builtin",
+				Helix:    "keyword.builtin",
+				Bindings: class.Bindings,
 			})
 		case hl.Repeat:
 			classes = append(classes, Classification{
-				Highlight: "repeat",
-				Bindings:  class.Bindings,
+				Tests:    "repeat",
+				Neovim:   "repeat",
+				Helix:    "keyword.control.repeat",
+				Bindings: class.Bindings,
 			})
 		case hl.Import:
 			classes = append(classes, Classification{
-				Highlight: "include",
-				Bindings:  class.Bindings,
+				Tests:    "include",
+				Neovim:   "include",
+				Helix:    "keyword.control.import",
+				Bindings: class.Bindings,
 			})
 		case hl.Var:
 			// XXX: nothing does this atm?
@@ -115,14 +155,6 @@ func commaList(names []bass.Symbol) string {
 	return strings.Join(strs, ",")
 }
 
-func match(class Classification) string {
-	if os.Getenv("NEOVIM") != "" {
-		return queryAnyOf(class)
-	} else {
-		return queryMatch(class)
-	}
-}
-
 func queryMatch(class Classification) string {
 	strs := make([]string, len(class.Bindings))
 	for i := range class.Bindings {
@@ -131,7 +163,7 @@ func queryMatch(class Classification) string {
 
 	return fmt.Sprintf(
 		`(#match? @%s %q)`,
-		class.Highlight,
+		class.Highlight(),
 		"^("+strings.Join(strs, "|")+")$",
 	)
 }
@@ -144,7 +176,7 @@ func queryAnyOf(class Classification) string {
 
 	return fmt.Sprintf(
 		`(#any-of? @%s %s)`,
-		class.Highlight,
+		class.Highlight(),
 		strings.Join(strs, " "),
 	)
 }

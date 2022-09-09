@@ -25,17 +25,11 @@
 
 {{range .Classes}}
 (
-  (list
-    .
-    (symbol) @{{.Highlight}}
-    {{. | match}})
+  (list . (symbol) {{.}})
   (set! "priority" 105)
 )
 (
-  (cons
-    .
-    (symbol) @{{.Highlight}}
-    {{. | match}})
+  (cons . (symbol) {{.}})
   (set! "priority" 105)
 )
 {{end}}

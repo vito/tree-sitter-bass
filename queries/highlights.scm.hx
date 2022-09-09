@@ -25,29 +25,29 @@
 
 
 (
-  (list . (symbol) @conditional (#match? @conditional "^(if|case|cond|when)$"))
+  (list . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
   (set! "priority" 105)
 )
 (
-  (cons . (symbol) @conditional (#match? @conditional "^(if|case|cond|when)$"))
-  (set! "priority" 105)
-)
-
-(
-  (list . (symbol) @repeat (#match? @repeat "^(each)$"))
-  (set! "priority" 105)
-)
-(
-  (cons . (symbol) @repeat (#match? @repeat "^(each)$"))
+  (cons . (symbol) @keyword.control.conditional (#match? @keyword.control.conditional "^(if|case|cond|when)$"))
   (set! "priority" 105)
 )
 
 (
-  (list . (symbol) @define (#match? @define "^(def|defop|defn)$"))
+  (list . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
   (set! "priority" 105)
 )
 (
-  (cons . (symbol) @define (#match? @define "^(def|defop|defn)$"))
+  (cons . (symbol) @keyword.control.repeat (#match? @keyword.control.repeat "^(each)$"))
+  (set! "priority" 105)
+)
+
+(
+  (list . (symbol) @keyword.control.storage (#match? @keyword.control.storage "^(def|defop|defn)$"))
+  (set! "priority" 105)
+)
+(
+  (cons . (symbol) @keyword.control.storage (#match? @keyword.control.storage "^(def|defop|defn)$"))
   (set! "priority" 105)
 )
 
@@ -79,11 +79,11 @@
 )
 
 (
-  (list . (symbol) @include (#match? @include "^(use|import|load)$"))
+  (list . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
   (set! "priority" 105)
 )
 (
-  (cons . (symbol) @include (#match? @include "^(use|import|load)$"))
+  (cons . (symbol) @keyword.control.import (#match? @keyword.control.import "^(use|import|load)$"))
   (set! "priority" 105)
 )
 
