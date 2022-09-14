@@ -24,8 +24,8 @@ overlapping queries.
 With `tree-sitter test` and Helix, the first matching query takes perecedence,
 whereas in Neovim the last matching query supersedes the ones before it.
 
-I decided to favor the former and manually set precedence, which Neovim
-respects. This seems to make all parties happy.
+To handle this the query template just conditionally switches the order of
+the queries.
 
 [Tree-sitter]: https://tree-sitter.github.io/tree-sitter
 [Neovim]: https://github.com/neovim/neovim
