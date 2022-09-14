@@ -77,4 +77,3 @@
   .
   (_)
   (symbol) @function)
-

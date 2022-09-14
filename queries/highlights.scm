@@ -77,4 +77,3 @@
 (scope (symbol) @variable)
 (subpath form: (symbol) @variable)
 (subbind form: (symbol) @variable)
-
