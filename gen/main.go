@@ -21,6 +21,8 @@ var isHelix = os.Getenv("HELIX") != ""
 type BassHL struct {
 	LispWords []bass.Symbol
 	Classes   []Classification
+	IsHelix   bool
+	IsNeovim  bool
 }
 
 type Classification struct {
@@ -137,6 +139,8 @@ func main() {
 	err = tmpl.Execute(os.Stdout, BassHL{
 		LispWords: hl.LispWords(scope),
 		Classes:   classes,
+		IsHelix:   isHelix,
+		IsNeovim:  isNeovim,
 	})
 	if err != nil {
 		log.Fatalf("execute template: %s", err)

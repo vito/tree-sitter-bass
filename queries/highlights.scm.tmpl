@@ -16,47 +16,59 @@
 
 (keyword) @string.special.symbol
 
-{{range .Classes}}
-((list . (symbol) {{.}})
- (set! "priority" 105))
-
-((cons . (symbol) {{.}})
- (set! "priority" 105))
-{{end}}
-
-((list
-   (symbol) @operator
-   (#match? @operator "&"))
- (set! "priority" 105))
-
-((cons
-   (symbol) @operator
-   (#match? @operator "&"))
- (set! "priority" 105))
-
-((list
-   .
-   (symbol) @function.macro
-   (#eq? @function.macro "->")
-   .
-   (symbol) @variable.parameter
-   (symbol) @function)
- (set! "priority" 105))
-
-((list
-   .
-   (symbol) @function.macro
-   (#eq? @function.macro "->")
-   .
-   (_)
-   (symbol) @function)
- (set! "priority" 105))
-
+{{- define "generic"}}
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)
 
-; be conservative; we don't want to just call every single symbol a variable
+; highlight symbols as vars only when they're clearly vars
 (cons (symbol) @variable)
 (scope (symbol) @variable)
 (subpath form: (symbol) @variable)
 (subbind form: (symbol) @variable)
+{{- end -}}
+
+{{- define "overrides"}}
+;; classification based highlighting
+{{range .Classes}}
+(list . (symbol) {{.}})
+(cons . (symbol) {{.}})
+{{end}}
+
+;; special cases
+
+; [a & b] highlights & as operator rather than a regular symbol
+(list (symbol) @operator (#match? @operator "&"))
+(cons (symbol) @operator (#match? @operator "&"))
+
+; (-> x y z) highlights first x as var, y z as function
+(list
+  .
+  (symbol) @function.macro
+  (#eq? @function.macro "->")
+  .
+  (symbol) @variable.parameter
+  (symbol) @function)
+
+; (-> 42 x y) highlights 42 as regular number
+(list
+  .
+  (symbol) @function.macro
+  (#eq? @function.macro "->")
+  .
+  (_)
+  (symbol) @function)
+{{- end}}
+
+{{if .IsNeovim}}
+;;; generic queries first
+{{template "generic"}}
+
+;;; specific queries supercede generic ones
+{{template "overrides" .}}
+{{else}}
+;;; specific queries take precedence
+{{template "overrides" .}}
+
+;;; generic highlight rules
+{{template "generic"}}
+{{end}}
