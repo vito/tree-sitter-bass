@@ -100,11 +100,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "subpath"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subbind"
+          "name": "symbind"
         },
         {
           "type": "SYMBOL",
@@ -330,153 +326,116 @@
         ]
       }
     },
+    "slash": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "/"
+      }
+    },
+    "dot": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "."
+      }
+    },
+    "dotdot": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": ".."
+      }
+    },
     "path": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "REPEAT1",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "/"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "TOKEN",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
-                          },
-                          {
-                            "type": "REPEAT",
-                            "content": {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
-                                },
-                                {
-                                  "type": "PATTERN",
-                                  "value": "[.0-9]"
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "relpath": {
-      "type": "TOKEN",
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "/"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
-                      },
-                      {
-                        "type": "REPEAT",
-                        "content": {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "PATTERN",
-                              "value": "[^\\t\\n\\v\\f\\r \\u0085\\u00A0,\"()\\[\\]{};^/:.0-9]"
-                            },
-                            {
-                              "type": "PATTERN",
-                              "value": "[.0-9]"
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "subpath": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "FIELD",
-            "name": "form",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "symbol"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "subbind"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "form",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "dot"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "dotdot"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "symbol"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "symbind"
+                    }
+                  ]
                 }
-              ]
-            }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "FIELD",
             "name": "path",
             "content": {
               "type": "SYMBOL",
-              "name": "relpath"
+              "name": "subpath"
             }
           }
         ]
       }
     },
-    "subbind": {
-      "type": "PREC_LEFT",
+    "subpath": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "slash"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "symbol"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "slash"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "symbind": {
+      "type": "PREC",
       "value": 5,
       "content": {
         "type": "SEQ",
@@ -493,7 +452,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "subbind"
+                  "name": "symbind"
                 }
               ]
             }

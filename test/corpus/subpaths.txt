@@ -11,21 +11,44 @@ git:github/vito/bass
 ---
 
 (source
-  (subpath
+  (path
     form: (symbol)
-    path: (relpath))
-  (subpath
+    path:
+      (subpath
+        (slash)
+        (symbol)))
+  (path
     form: (symbol)
-    path: (relpath))
-  (subpath
+    path:
+      (subpath
+        (slash)
+        (symbol)
+        (slash)))
+  (path
     form: (symbol)
-    path: (relpath))
-  (subpath
+    path:
+      (subpath
+        (slash)
+        (symbol)
+        (slash)
+        (symbol)))
+  (path
     form: (symbol)
-    path: (relpath))
-  (subpath
+    path:
+      (subpath
+        (slash)
+        (symbol)
+        (slash)
+        (symbol)
+        (slash)))
+  (path
     form:
-      (subbind
+      (symbind
         form: (symbol)
         keyword: (keyword))
-    path: (relpath)))
+    path:
+      (subpath
+        (slash)
+        (symbol)
+        (slash)
+        (symbol))))

@@ -48,9 +48,9 @@ module.exports = grammar({
         $.scope,
         // paths
         $.command,
+        // $.path,
         $.path,
-        $.subpath,
-        $.subbind,
+        $.symbind,
         // meta
         $.meta,
       ),
@@ -90,26 +90,40 @@ module.exports = grammar({
     command: _ =>
       token(seq(".", SYMBOL)),
 
-    path: _ =>
-      token(seq(".", SUBPATH)),
+    slash: _ => token("/"),
+    dot: _ => token("."),
+    dotdot: _ => token(".."),
 
-    relpath: _ =>
-      token(SUBPATH),
+    path: $ =>
+      seq(optional("."), $.subpath),
 
     subpath: $ =>
-      prec.left(
-        PREC.PATH,
+      prec.right(
         seq(
-          field("form", choice($.symbol, $.subbind)),
-          field("path", $.relpath),
+          repeat1(
+            seq(
+              $.slash,
+              $.symbol,
+            ),
+          ),
+          optional($.slash),
         ),
       ),
 
-    subbind: $ =>
-      prec.left(
+    path: $ =>
+      prec.right(
+        PREC.PATH,
+        seq(
+          optional(field("form", choice($.dot, $.dotdot, $.symbol, $.symbind))),
+          field("path", $.subpath),
+        ),
+      ),
+
+    symbind: $ =>
+      prec(
         PREC.BIND,
         seq(
-          field("form", choice($.symbol, $.subbind)),
+          field("form", choice($.symbol, $.symbind)),
           field("keyword", $.keyword),
         ),
       ),

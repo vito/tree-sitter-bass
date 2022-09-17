@@ -6,16 +6,16 @@ _
 ; <- constant.builtin
 
 true
-; <- constant.builtin
+; <- constant.builtin.boolean
 
 false
-; <- constant.builtin
+; <- constant.builtin.boolean
 
 null
 ; <- constant.builtin
 
 42
-; <- constant.numeric
+; <- constant.numeric.integer
 
 :foo
 ; <- string.special.symbol
@@ -53,11 +53,16 @@ null
 ; <- namespace
 
 ./foo
-; <- namespace
+; <- string.special.path
+
+/foo
+; <- function
+; ^ string.special.path
 
 foo/bar
 ; <- variable
-;   ^ namespace
+;  ^ function
+;   ^ string.special.path
 
 foo:bar
 ; <- variable
@@ -71,9 +76,10 @@ foo:bar:baz
 foo:bar/baz/buzz
 ; <- variable
 ;  ^ string.special.symbol
-;      ^ namespace
-;        ^ namespace
-;            ^ namespace
+;      ^ function
+;       ^ string.special.path
+;          ^ function
+;           ^ string.special.path
 
 (def foo 42)
 ; ^ define
@@ -140,7 +146,7 @@ foo:bar/baz/buzz
 
 (-> 42 foo (bar baz) quux)
 ; ^ function.macro
-;   ^ constant.numeric
+;   ^ constant.numeric.integer
 ;      ^ function
 ;           ^ function
 ;                    ^ function

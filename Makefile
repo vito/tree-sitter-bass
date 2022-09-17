@@ -15,3 +15,7 @@ queries/highlights.scm.hx: queries/highlights.scm.tmpl gen/main.go go.mod go.sum
 
 clean:
 	rm -f $(targets)
+
+install:
+	cp ./queries/highlights.scm.nvim ../bass.vim/queries/bass/highlights.scm
+	cp ./queries/highlights.scm.hx ../helix/runtime/queries/bass/highlights.scm

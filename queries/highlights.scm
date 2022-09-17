@@ -4,17 +4,19 @@
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-[(ignore) (null) (bool)] @constant.builtin
+[(ignore) (null)] @constant.builtin
 
-(int) @constant.numeric
+(bool) @constant.builtin.boolean
+
+(int) @constant.numeric.integer
 
 (string (string_escape) @constant.character.escape)
 
 (string) @string
-
-[(command) (path) (relpath)] @namespace
-
+(path) @string.special.path
 (keyword) @string.special.symbol
+
+(command) @namespace
 
 
 ;;; specific queries take precedence
@@ -72,8 +74,10 @@
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)
 
+(subpath (slash) @function)
+
 ; highlight symbols as vars only when they're clearly vars
 (cons (symbol) @variable)
 (scope (symbol) @variable)
-(subpath form: (symbol) @variable)
-(subbind form: (symbol) @variable)
+(path form: (symbol) @variable)
+(symbind form: (symbol) @variable)
