@@ -76,11 +76,7 @@
             "named": true
           },
           {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "subpath",
+            "type": "symbind",
             "named": true
           },
           {
@@ -178,11 +174,7 @@
             "named": true
           },
           {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "subpath",
+            "type": "symbind",
             "named": true
           },
           {
@@ -260,11 +252,7 @@
             "named": true
           },
           {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "subpath",
+            "type": "symbind",
             "named": true
           },
           {
@@ -336,11 +324,7 @@
             "named": true
           },
           {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "subpath",
+            "type": "symbind",
             "named": true
           },
           {
@@ -359,6 +343,44 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "path",
+    "named": true,
+    "fields": {
+      "form": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "dotdot",
+            "named": true
+          },
+          {
+            "type": "symbind",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "subpath",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -438,11 +460,7 @@
             "named": true
           },
           {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "subpath",
+            "type": "symbind",
             "named": true
           },
           {
@@ -524,11 +542,7 @@
           "named": true
         },
         {
-          "type": "subbind",
-          "named": true
-        },
-        {
-          "type": "subpath",
+          "type": "symbind",
           "named": true
         },
         {
@@ -555,7 +569,26 @@
     }
   },
   {
-    "type": "subbind",
+    "type": "subpath",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "slash",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "symbind",
     "named": true,
     "fields": {
       "form": {
@@ -563,7 +596,7 @@
         "required": true,
         "types": [
           {
-            "type": "subbind",
+            "type": "symbind",
             "named": true
           },
           {
@@ -578,36 +611,6 @@
         "types": [
           {
             "type": "keyword",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "subpath",
-    "named": true,
-    "fields": {
-      "form": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "subbind",
-            "named": true
-          },
-          {
-            "type": "symbol",
-            "named": true
-          }
-        ]
-      },
-      "path": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "relpath",
             "named": true
           }
         ]
@@ -651,6 +654,14 @@
     "named": true
   },
   {
+    "type": "dot",
+    "named": true
+  },
+  {
+    "type": "dotdot",
+    "named": true
+  },
+  {
     "type": "ignore",
     "named": true
   },
@@ -667,11 +678,7 @@
     "named": true
   },
   {
-    "type": "path",
-    "named": true
-  },
-  {
-    "type": "relpath",
+    "type": "slash",
     "named": true
   },
   {

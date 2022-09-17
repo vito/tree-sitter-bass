@@ -1,23 +1,45 @@
 ; GENERATED VIA https://github.com/vito/tree-sitter-bass
 
+;;; comments
+
 (comment) @comment.line
+
+;;; punctuation
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-[(ignore) (null) (bool)] @constant.builtin
+;;; constants
+
+[(ignore) (null)] @constant.builtin
+
+(bool) @constant.builtin.boolean
 
 (int) @number
 
-(string (string_escape) @string.escape)
+;;; strings
+
+;; string literals
 
 (string) @string
+(string (string_escape) @string.escape)
 
-[(command) (path) (relpath)] @namespace
+;; keywords (symbol literals)
 
-(keyword) @string.special.symbol
+(keyword) @symbol
+
+;; paths
+
+(dot) @string.special.path
+(dotdot) @string.special.path
+(command) @string.special.path
+(subpath (symbol) @string.special.path)
+
+; slashes in a path denote a combiner call
+(subpath (slash) @function)
 
 
-;;; generic queries first
+
+;;; generic highlighting for all forms
 
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)
@@ -25,12 +47,12 @@
 ; highlight symbols as vars only when they're clearly vars
 (cons (symbol) @variable)
 (scope (symbol) @variable)
-(subpath form: (symbol) @variable)
-(subbind form: (symbol) @variable)
+(path form: (symbol) @variable)
+(symbind form: (symbol) @variable)
 
-;;; specific queries supercede generic ones
+;;; specific highlighting for builtins & special forms
 
-;; classification based highlighting
+;; symbol classification based highlighting
 
 (list . (symbol) @conditional (#any-of? @conditional "if" "case" "cond" "when"))
 (cons . (symbol) @conditional (#any-of? @conditional "if" "case" "cond" "when"))

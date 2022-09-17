@@ -8,12 +8,12 @@ foo:bar:baz
 ---
 
 (source
-  (subbind
+  (symbind
     form: (symbol)
     keyword: (keyword))
-  (subbind
+  (symbind
     form:
-      (subbind
+      (symbind
         form: (symbol)
         keyword: (keyword))
     keyword: (keyword)))

@@ -1,34 +1,59 @@
 ; GENERATED VIA https://github.com/vito/tree-sitter-bass
 
+;;; comments
+
 (comment) @comment.line
+
+;;; punctuation
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-[(ignore) (null) (bool)] @constant.builtin
+;;; constants
 
-(int) @{{hl "constant.numeric" "number" "constant.numeric"}}
+[(ignore) (null)] @constant.builtin
 
-(string (string_escape) @{{hl "constant.character.escape" "string.escape" "constant.character.escape"}})
+(bool) @constant.builtin.boolean
+
+(int) @{{hl "constant.numeric.integer" "number" "constant.numeric.integer"}}
+
+;;; strings
+
+;; string literals
 
 (string) @string
+(string (string_escape) @{{hl "constant.character.escape" "string.escape" "constant.character.escape"}})
 
-[(command) (path) (relpath)] @namespace
+;; keywords (symbol literals)
 
-(keyword) @string.special.symbol
+(keyword) @{{hl "string.special.symbol" "symbol" "string.special.symbol"}}
+
+;; paths
+
+(dot) @string.special.path
+(dotdot) @string.special.path
+(command) @string.special.path
+(subpath (symbol) @string.special.path)
+
+; slashes in a path denote a combiner call
+(subpath (slash) @function)
 
 {{- define "generic"}}
+;;; generic highlighting for all forms
+
 ; first symbol in a list form is a combiner call
 (list . (symbol) @function)
 
 ; highlight symbols as vars only when they're clearly vars
 (cons (symbol) @variable)
 (scope (symbol) @variable)
-(subpath form: (symbol) @variable)
-(subbind form: (symbol) @variable)
+(path form: (symbol) @variable)
+(symbind form: (symbol) @variable)
 {{- end -}}
 
 {{- define "overrides"}}
-;; classification based highlighting
+;;; specific highlighting for builtins & special forms
+
+;; symbol classification based highlighting
 {{range .Classes}}
 (list . (symbol) {{.}})
 (cons . (symbol) {{.}})
@@ -60,15 +85,9 @@
 {{- end}}
 
 {{if .IsNeovim}}
-;;; generic queries first
 {{template "generic"}}
-
-;;; specific queries supercede generic ones
 {{template "overrides" .}}
 {{else}}
-;;; specific queries take precedence
 {{template "overrides" .}}
-
-;;; generic highlight rules
 {{template "generic"}}
 {{end -}}
