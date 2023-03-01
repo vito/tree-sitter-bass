@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "typescript": "^4.8.2"
+    "eslint": "^8.35.0",
+    "eslint-config-google": "^0.14.0",
   },
   "tree-sitter": [
     {
