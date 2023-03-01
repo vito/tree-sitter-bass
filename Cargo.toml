@@ -2,6 +2,7 @@
 name = "tree-sitter-bass"
 description = "Bass grammar for the tree-sitter parsing library"
 version = "0.0.1"
+readme = "bindings/rust/README.md"
 keywords = ["incremental", "parsing", "bass"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/vito/tree-sitter-bass"
