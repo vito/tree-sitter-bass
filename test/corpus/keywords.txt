@@ -9,6 +9,9 @@ Keywords
 ---
 
 (source
-  (keyword)
-  (keyword)
-  (keyword))
+  (keyword
+	(symbol))
+  (keyword
+	(symbol))
+  (keyword
+	(symbol)))

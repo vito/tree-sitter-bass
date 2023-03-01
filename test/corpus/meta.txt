@@ -9,14 +9,16 @@ Meta
 
 (source
   (meta
-    meta: (keyword)
-    form: (int))
+	(keyword
+	  (symbol))
+	(number))
   (meta
-    meta: (keyword)
-    form:
-      (meta
-        meta:
-          (scope
-            value: (keyword)
-            value: (bool))
-        form: (string))))
+	(keyword
+	  (symbol))
+	(meta
+	  (scope
+		(keyword
+		  (symbol))
+		(boolean))
+	  (string
+		(string_fragment)))))

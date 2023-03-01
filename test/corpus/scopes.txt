@@ -13,19 +13,25 @@ Scopes
 (source
   (scope)
   (scope
-    (keyword)
-    (int))
+	(keyword
+	  (symbol))
+	(number))
   (scope
-    (keyword)
-    (int)
-    (keyword)
-    (int))
+	(keyword
+	  (symbol))
+	(number)
+	(keyword
+	  (symbol))
+	(number))
   (scope
-    (symbol))
+	(symbol))
   (scope
-    (symbol)
-    (symbol)
-    (keyword)
-    (int)
-    (keyword)
-    (int)))
+	(symbol)
+    (symbind
+      (symbol)
+      (keyword
+        (symbol)))
+	(number)
+	(keyword
+	  (symbol))
+	(number)))
