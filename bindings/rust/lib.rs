@@ -36,11 +36,20 @@ pub fn language() -> Language {
 /// The source of the Rust tree-sitter grammar description.
 pub const GRAMMAR: &str = include_str!("../../grammar.js");
 
+/// The folds query for this language.
+pub const FOLDS_QUERY: &str = include_str!("../../queries/nvim/folds.scm");
+
 /// The syntax highlighting query for this language.
-pub const HIGHLIGHTS_QUERY: &str = include_str!("../../queries/highlights.scm");
+pub const HIGHLIGHTS_QUERY: &str = include_str!("../../queries/nvim/highlights.scm");
+
+/// The indents query for this language.
+pub const INDENTS_QUERY: &str = include_str!("../../queries/nvim/indents.scm");
 
 /// The injection query for this language.
 pub const INJECTIONS_QUERY: &str = include_str!("../../queries/nvim/injections.scm");
+
+/// The symbol tagging query for this language.
+pub const LOCALS_QUERY: &str = include_str!("../../queries/nvim/locals.scm");
 
 /// The content of the [`node-types.json`][] file for this grammar.
 ///
