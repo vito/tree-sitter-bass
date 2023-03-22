@@ -40,29 +40,28 @@ module.exports = grammar({
   rules: {
     source: $ => repeat($.form),
 
-    form: $ =>
-      choice(
-        // literals
-        $.literal,
+    form: $ => choice(
+      // literals
+      $.literal,
 
-        // Identifier
-        $.symbol,
+      // Identifier
+      $.symbol,
 
-        $.keyword,
+      $.keyword,
 
-        // collections
-        $.list,
-        $.cons,
-        $.scope,
+      // collections
+      $.list,
+      $.cons,
+      $.scope,
 
-        // paths
-        $.command,
-        $.path,
-        $.symbind,
+      // paths
+      $.command,
+      $.path,
+      $.symbind,
 
-        // meta
-        $.meta,
-      ),
+      // meta
+      $.meta,
+    ),
 
     keyword: $ => seq(':', choice($.symbol, $.path, $.command)),
 
@@ -70,49 +69,31 @@ module.exports = grammar({
 
     path: _ => PATH,
 
-    symbind: $ =>
-      prec(1, seq(
-        choice($.symbol, $.symbind),
-        $.keyword,
-      ),
-      ),
+    symbind: $ => prec(1, seq(
+      choice($.symbol, $.symbind),
+      $.keyword,
+    ),
+    ),
 
-    meta: $ =>
-      seq(
-        field('marker', '^'),
-        field('meta', $.form),
-        $.form,
-      ),
+    meta: $ => seq(
+      field('marker', '^'),
+      field('meta', $.form),
+      $.form,
+    ),
 
-    list: $ =>
-      seq(
-        '(',
-        repeat($.form),
-        ')',
-      ),
+    list: $ => seq('(', repeat($.form), ')'),
 
-    scope: $ =>
-      seq(
-        '{',
-        repeat($.form),
-        '}',
-      ),
+    scope: $ => seq('{', repeat($.form), '}'),
 
-    cons: $ =>
-      seq(
-        '[',
-        repeat($.form),
-        ']',
-      ),
+    cons: $ => seq('[', repeat($.form), ']'),
 
-    literal: $ =>
-      choice(
-        $.number,
-        $.boolean,
-        $.string,
-        $.ignore,
-        $.null,
-      ),
+    literal: $ => choice(
+      $.number,
+      $.boolean,
+      $.string,
+      $.ignore,
+      $.null,
+    ),
 
     number: _ => /[+-]?[0-9]+/,
 
@@ -130,11 +111,10 @@ module.exports = grammar({
     // so as to obtain a node in the CST.
     string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
 
-    _escape_sequence: $ =>
-      choice(
-        prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
-        prec(1, $.escape_sequence),
-      ),
+    _escape_sequence: $ => choice(
+      prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+      prec(1, $.escape_sequence),
+    ),
 
     escape_sequence: _ => token.immediate(seq(
       '\\',
@@ -144,7 +124,8 @@ module.exports = grammar({
         /x[0-9a-fA-F]{2}/,
         /u[0-9a-fA-F]{4}/,
         /u{[0-9a-fA-F]+}/,
-      ))),
+      ),
+    )),
 
     ignore: _ => '_',
 
