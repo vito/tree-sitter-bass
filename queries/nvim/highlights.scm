@@ -8,6 +8,11 @@
 
 (symbind (symbol) @variable)
 
+;; Constants
+
+((symbol) @constant
+  (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$"))
+
 ;; Functions
 
 (list 
@@ -32,6 +37,7 @@
 ;; Special Functions
 
 ; Keywords construct a symbol
+
 (keyword) @constructor
 
 ((list
@@ -68,11 +74,11 @@
 
 ;; Punctuation
 
+[ "(" ")" ] @punctuation.bracket
+
 [ "{" "}" ] @punctuation.bracket
 
 [ "[" "]" ] @punctuation.bracket
-
-[ "(" ")" ] @punctuation.bracket
 
 ((symbol) @punctuation.delimiter
   (#eq? @punctuation.delimiter "->"))
@@ -100,4 +106,4 @@
 
 ;; Comments
 
-(comment) @comment
+(comment) @comment @spell
