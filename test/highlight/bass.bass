@@ -99,13 +99,13 @@ foo:bar/baz/buzz/
 ; ^ label
 
 [def foo 42]
-; ^ variable
+; ^ label
 
 (defn foo 42)
 ; ^ label
 
 [defn foo 42]
-; ^ variable
+; ^ label
 
 (use (.strings))
 ; ^ keyword.control.import

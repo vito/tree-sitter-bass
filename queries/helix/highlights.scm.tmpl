@@ -17,13 +17,24 @@
 ; TODO: classify
 ((symbol) @operator (#match? @operator "^(&|\\*|\\+|-|<|<=|=|>|>=)$"))
 
-;; Special Functions
+;; Defining
 
 ((list
   . (symbol) @label
   . (symbol) @function
   (symbol)? @parameter)
   {{match "@label" "Def"}})
+
+((cons
+  . (symbol) @label
+  . (symbol) @function
+  (symbol)? @parameter)
+  {{match "@label" "Def"}})
+
+((symbol) @label
+  {{match "@label" "Def"}})
+
+;; Builtins
 
 ((symbol) @function.builtin
   {{match "@function.builtin" "Fn"}})

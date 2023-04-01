@@ -33,13 +33,24 @@
 ((symbol) @keyword
   {{match "@keyword" "Special"}})
 
-;; Special Functions
+;; Defining
 
 ((list
   . (symbol) @keyword.function
   . (symbol) @function
   (symbol)? @parameter)
   {{match "@keyword.function" "Def"}})
+
+((cons
+  . (symbol) @keyword.function
+  . (symbol) @function
+  (symbol)? @parameter)
+  {{match "@keyword.function" "Def"}})
+
+((symbol) @keyword.function
+  {{match "@keyword.function" "Def"}})
+
+;; Builtins
 
 ((symbol) @function.builtin
   {{match "@function.builtin" "Fn"}})
