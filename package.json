@@ -41,8 +41,9 @@
       "file-types": [
         "bass"
       ],
+      "//": "We use the helix query for testing because its precedence rules are compatible with tree-sitter test.",
       "highlights": [
-        "queries/highlights.scm"
+        "queries/helix/highlights.scm"
       ],
       "indents": [
         "queries/nvim/indents.scm"

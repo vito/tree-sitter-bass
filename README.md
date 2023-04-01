@@ -15,8 +15,6 @@ make
 
 This will generate the following files:
 
-- `queries/highlights.scm` — a set of highlight queries suitable for
-  `tree-sitter test`
 - `queries/vim/highlights.scm` — suitable for [Neovim] highlighting
 - `queries/helix/highlights.scm` — suitable for [Helix] highlighting
 

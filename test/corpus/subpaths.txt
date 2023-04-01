@@ -16,6 +16,6 @@ git:github/vito/bass
   (path)
   (path)
   (symbind
-	(symbol)
-	(keyword
-	  (path))))
+    (symbol)
+    (keyword
+      (path))))

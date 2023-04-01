@@ -29,7 +29,7 @@ null
 
 (foo & bar)
 ; <- punctuation.bracket
-; ^ function
+;^ function
 ;    ^ operator
 ;         ^ punctuation.bracket
 
@@ -96,60 +96,60 @@ foo:bar/baz/buzz/
 ;           ^ string.special.path
 
 (def foo 42)
-; ^ define
+; ^ label
 
 [def foo 42]
-; ^ define
+; ^ variable
 
 (defn foo 42)
-; ^ define
+; ^ label
 
 [defn foo 42]
-; ^ define
+; ^ variable
 
 (use (.strings))
-; ^ include
+; ^ keyword.control.import
 
 [use (.strings)]
-; ^ include
+; ^ keyword.control.import
 
 (load (.strings))
-; ^ include
+; ^ keyword.control.import
 
 [load (.strings)]
-; ^ include
+; ^ keyword.control.import
 
 (import (load (.strings)))
-; ^ include
-;        ^ include
+; ^ keyword.control.import
+;        ^ keyword.control.import
 
 [import (load (.strings))]
-; ^ include
-;        ^ include
+; ^ keyword.control.import
+;        ^ keyword.control.import
 
 (if a b c)
-; ^ conditional
+; ^ keyword.control.conditional
 
 [if a b c]
-; ^ conditional
+; ^ keyword.control.conditional
 
 (when a b c)
-; ^ conditional
+; ^ keyword.control.conditional
 
 [when a b c]
-; ^ conditional
+; ^ keyword.control.conditional
 
 (cond a b c)
-; ^ conditional
+; ^ keyword.control.conditional
 
 [cond a b c]
-; ^ conditional
+; ^ keyword.control.conditional
 
 (case a b c)
-; ^ conditional
+; ^ keyword.control.conditional
 
 [case a b c]
-; ^ conditional
+; ^ keyword.control.conditional
 
 (-> hi foo (bar baz) quux)
 ; ^ function.macro
@@ -164,3 +164,17 @@ foo:bar/baz/buzz/
 ;      ^ function
 ;           ^ function
 ;                    ^ function
+
+(ops & * + - < <= = > >=)
+; ^ function
+;    ^ operator
+;      ^ operator
+;        ^ operator
+;          ^ operator
+;            ^ operator
+;              ^ operator
+;               ^ operator
+;                 ^ operator
+;                   ^ operator
+;                     ^ operator
+;                      ^ operator
