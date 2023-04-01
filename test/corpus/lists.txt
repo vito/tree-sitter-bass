@@ -12,14 +12,15 @@ Lists
 (source
   (list)
   (list
-    (symbol)
-    (int))
+	(symbol)
+	(number))
   (list
-    (symbol)
-    (symbol)
-    (int))
+	(symbol)
+	(symbol)
+	(number))
   (list
-    (symbol)
-    (int)
-    (keyword)
-    (int)))
+	(symbol)
+	(number)
+	(keyword
+	  (symbol))
+	(number)))

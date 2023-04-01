@@ -13,19 +13,25 @@ Cons
 (source
   (cons)
   (cons
-    (keyword)
-    (int))
+	(keyword
+	  (symbol))
+	(number))
   (cons
-    (keyword)
-    (int)
-    (keyword)
-    (int))
+	(keyword
+	  (symbol))
+	(number)
+	(keyword
+	  (symbol))
+    (number))
   (cons
-    (symbol))
+	(symbol))
   (cons
-    (symbol)
-    (symbol)
-    (keyword)
-    (int)
-    (keyword)
-    (int)))
+	(symbol)
+    (symbind
+      (symbol)
+      (keyword
+        (symbol)))
+	(number)
+	(keyword
+	  (symbol))
+	(number)))

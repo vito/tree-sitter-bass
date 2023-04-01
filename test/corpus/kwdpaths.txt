@@ -1,5 +1,5 @@
 ===
-Keyword paths
+command paths
 ===
 
 foo:bar
@@ -9,11 +9,13 @@ foo:bar:baz
 
 (source
   (symbind
-    form: (symbol)
-    keyword: (keyword))
+	(symbol)
+	(keyword
+	  (symbol)))
   (symbind
-    form:
-      (symbind
-        form: (symbol)
-        keyword: (keyword))
-    keyword: (keyword)))
+	(symbind
+	  (symbol)
+	  (keyword
+		(symbol)))
+	(keyword
+	  (symbol))))

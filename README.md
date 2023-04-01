@@ -1,10 +1,13 @@
 # tree-sitter-bass
 
-> A Bass grammar for [Tree-sitter](https://tree-sitter.github.io).
+[![Build Status](https://github.com/vito/tree-sitter-bass/actions/workflows/ci.yml/badge.svg)](https://github.com/vito/tree-sitter-bass/actions/workflows/ci.yml)
+[![Discord](https://img.shields.io/discord/1063097320771698699?logo=discord)](https://discord.gg/w7nTvsVJhm)
 
-## generating `highlights.scm`
+[Bass](https://bass-lang.org/) grammar for [Tree-sitter](https://tree-sitter.github.io).
 
-prerequisites: `go`, `make`
+## Generating `highlights.scm`
+
+Prerequisites: `go` and `make`
 
 ```sh
 make
@@ -12,21 +15,21 @@ make
 
 This will generate the following files:
 
-* `queries/highlights.scm` - a set of highlight queries suitable for `tree-sitter test`
-* `queries/highlights.scm.nvim` - suitable for [Neovim] highlighting
-* `queries/highlights.scm.nvim` - suitable for [Helix] highlighting
+- `queries/highlights.scm` — a set of highlight queries suitable for
+  `tree-sitter test`
+- `queries/vim/highlights.scm` — suitable for [Neovim] highlighting
+- `queries/helix/highlights.scm` — suitable for [Helix] highlighting
 
-### a quick note on precedence
+## A Quick Note on Precedence
 
 `tree-sitter test`, Helix, and Neovim disagree on the precedence for
 overlapping queries.
 
-With `tree-sitter test` and Helix, the first matching query takes perecedence,
+With `tree-sitter test` and Helix, the first matching query takes precedence,
 whereas in Neovim the last matching query supersedes the ones before it.
 
 To handle this the query template just conditionally switches the order of
 the queries.
 
-[Tree-sitter]: https://tree-sitter.github.io/tree-sitter
 [Neovim]: https://github.com/neovim/neovim
 [Helix]: https://github.com/helix-editor/helix

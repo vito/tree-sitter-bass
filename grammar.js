@@ -1,157 +1,140 @@
-const PREC = {
-  PATH: 10, // foo/bar
-  BIND: 5, // foo:bar
-};
+/**
+ * @file Bass grammar for tree-sitter
+ * @author Alex Suraci <suraci.alex@gmail.com>
+ * @author Amaan Qureshi <amaanq12@gmail.com>
+ * @license MIT
+ * @see {@link https://bass-lang.org|official website}
+ */
 
-const SYMBOL_HEAD =
-  /[^\t\n\v\f\r \u0085\u00A0,"()\[\]{};^/:.0-9]/;
+/* eslint-disable arrow-parens */
+/* eslint-disable camelcase */
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 
-const SYMBOL_TAIL =
-  choice(SYMBOL_HEAD, /[.0-9]/);
+const SYMBOL = token(
+  /[^\t\n\v\f\r \u0085\u00A0,"()\[\]{};^/:.0-9][^\t\n\v\f\r \u0085\u00A0,"()\[\]{};^/:]*/,
+);
 
-const SYMBOL =
-  token(seq(SYMBOL_HEAD, repeat(SYMBOL_TAIL)));
-
-const SUBPATH =
-  repeat1(seq("/", optional(SYMBOL)));
+const PATH = token(choice(
+  /\.\/[A-Za-z0-9\.\/]*/,
+  /\/[A-Za-z0-9\.\/]*/,
+  /[A-Za-z0-9\.\/]*\/[A-Za-z0-9\.\/]*/,
+));
 
 module.exports = grammar({
   name: 'bass',
 
+  extras: $ => [
+    $.comment,
+    /[\s,]/,
+  ],
+
+  supertypes: $ => [
+    $.form,
+    $.literal,
+  ],
+
+  word: $ => $.symbol,
+
   rules: {
-    source: $ =>
-      repeat(choice($._form, $._gap)),
+    source: $ => repeat($.form),
 
-    _gap: $ =>
-      choice($._ws, $.comment),
+    form: $ => choice(
+      // literals
+      $.literal,
 
-    _ws: _ =>
-      // Latin-1 spaces should cover it in practice, + comma
-      token(repeat1(/[\t\n\v\f\r \u0085\u00A0,]/)),
+      // Identifier
+      $.symbol,
 
-    comment: _ =>
-      token(/(;|#!).*\n?/),
+      $.keyword,
 
-    _form: $ =>
-      choice(
-        // scalars
-        $.int,
-        $.string,
-        $.ignore,
-        $.null,
-        $.bool,
-        $.symbol,
-        $.keyword,
-        // collections
-        $.list,
-        $.cons,
-        $.scope,
-        // paths
-        $.command,
-        $.path,
-        $.symbind,
-        // meta
-        $.meta,
-      ),
+      // collections
+      $.list,
+      $.cons,
+      $.scope,
 
-    int: _ =>
-      token(prec(10, seq(optional(/[+-]/), repeat1(/[0-9]/)))),
+      // paths
+      $.command,
+      $.path,
+      $.symbind,
 
-    keyword: _ =>
-      token(seq(":", SYMBOL)),
+      // meta
+      $.meta,
+    ),
 
-    string_escape: _ =>
-      token(seq("\\", /["n\\tafrbv]/)),
+    keyword: $ => seq(':', choice($.symbol, $.path, $.command)),
+
+    command: _ => token(seq('.', SYMBOL)),
+
+    path: _ => PATH,
+
+    symbind: $ => prec(1, seq(
+      choice($.symbol, $.symbind),
+      $.keyword,
+    ),
+    ),
+
+    meta: $ => seq(
+      field('marker', '^'),
+      field('meta', $.form),
+      $.form,
+    ),
+
+    list: $ => seq('(', repeat($.form), ')'),
+
+    scope: $ => seq('{', repeat($.form), '}'),
+
+    cons: $ => seq('[', repeat($.form), ']'),
+
+    literal: $ => choice(
+      $.number,
+      $.boolean,
+      $.string,
+      $.ignore,
+      $.null,
+    ),
+
+    number: _ => /[+-]?[0-9]+/,
 
     string: $ => seq(
       '"',
-      repeat(
-        choice(
-          /[^"\\]+/,
-          field("escape", $.string_escape),
-        ),
-      ),
+      repeat(choice(
+        $.string_fragment,
+        $._escape_sequence,
+      )),
       '"',
     ),
 
-    ignore: _ =>
-      token('_'),
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token_ constructs containing a regexp
+    // so as to obtain a node in the CST.
+    string_fragment: _ => token.immediate(prec(1, /[^"\\]+/)),
 
-    null: _ =>
-      token('null'),
+    _escape_sequence: $ => choice(
+      prec(2, token.immediate(seq('\\', /[^abfnrtvxu'\"\\\?]/))),
+      prec(1, $.escape_sequence),
+    ),
 
-    bool: _ =>
-      token(choice('false', 'true')),
-
-    symbol: _ =>
-      SYMBOL,
-
-    command: _ =>
-      token(seq(".", SYMBOL)),
-
-    slash: _ => token("/"),
-    dot: _ => token("."),
-    dotdot: _ => token(".."),
-
-    subpath: $ =>
-      prec.right(
-        seq(
-          repeat1(
-            seq(
-              $.slash,
-              $.symbol,
-            ),
-          ),
-          optional($.slash),
-        ),
+    escape_sequence: _ => token.immediate(seq(
+      '\\',
+      choice(
+        /[^xu0-7]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u{[0-9a-fA-F]+}/,
       ),
+    )),
 
-    path: $ =>
-      prec.right(
-        PREC.PATH,
-        seq(
-          optional(field("form", choice($.dot, $.dotdot, $.symbol, $.symbind))),
-          field("path", $.subpath),
-        ),
-      ),
+    ignore: _ => '_',
 
-    symbind: $ =>
-      prec(
-        PREC.BIND,
-        seq(
-          field("form", choice($.symbol, $.symbind)),
-          field("keyword", $.keyword),
-        ),
-      ),
+    null: _ => 'null',
 
-    meta: $ =>
-      seq(
-        field('marker', "^"),
-        repeat($._gap),
-        field('meta', $._form),
-        repeat($._gap),
-        field('form', $._form),
-      ),
+    boolean: _ => choice('false', 'true'),
 
-    list: $ =>
-      seq(
-        field('open', "("),
-        repeat(choice(field('value', $._form), $._gap)),
-        field('close', ")"),
-      ),
+    symbol: _ => SYMBOL,
 
-    scope: $ =>
-      seq(
-        field('open', "{"),
-        repeat(choice(field('value', $._form), $._gap)),
-        field('close', "}"),
-      ),
-
-    cons: $ =>
-      seq(
-        field('open', "["),
-        repeat(choice(field('value', $._form), $._gap)),
-        field('close', "]"),
-      ),
-  }
+    comment: _ => token(/(;|#!).*/),
+  },
 });

@@ -12,16 +12,16 @@
 
 [(ignore) (null)] @constant.builtin
 
-(bool) @constant.builtin.boolean
+(boolean) @constant.builtin.boolean
 
-(int) @constant.numeric.integer
+(number) @constant.numeric.integer
 
 ;;; strings
 
 ;; string literals
 
 (string) @string
-(string (string_escape) @constant.character.escape)
+(escape_sequence) @constant.character.escape
 
 ;; keywords (symbol literals)
 
@@ -29,13 +29,13 @@
 
 ;; paths
 
-(dot) @string.special.path
-(dotdot) @string.special.path
-(command) @string.special.path
-(subpath (symbol) @string.special.path)
+; (dot) @string.special.path
+; (dotdot) @string.special.path
+(path) @string.special.path
+; (subpath (symbol) @string.special.path)
 
 ; slashes in a path denote a combiner call
-(subpath (slash) @function)
+; (subpath (slash) @function)
 
 
 
@@ -97,5 +97,4 @@
 ; highlight symbols as vars only when they're clearly vars
 (cons (symbol) @variable)
 (scope (symbol) @variable)
-(path form: (symbol) @variable)
-(symbind form: (symbol) @variable)
+(symbind (symbol) @variable)

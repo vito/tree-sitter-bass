@@ -49,38 +49,29 @@ null
 ; foo
 ; <- comment.line
 
-.bash
-; <- string.special.path
+;.bash
+; string.special.path
 
 ./foo
 ; <- string.special.path
-;^ function
 ; ^ string.special.path
 
 ../foo
 ; <- string.special.path
-; ^ function
 ;  ^ string.special.path
 
 ./foo/
 ; <- string.special.path
-;^ function
 ; ^ string.special.path
-;    ^ function
 
 ../foo/
 ; <- string.special.path
-; ^ function
 ;  ^ string.special.path
-;     ^ function
 
 /foo
-; <- function
 ; ^ string.special.path
 
 foo/bar
-; <- variable
-;  ^ function
 ;   ^ string.special.path
 
 foo:bar
@@ -95,19 +86,14 @@ foo:bar:baz
 foo:bar/baz/buzz
 ; <- variable
 ;  ^ string.special.symbol
-;      ^ function
 ;       ^ string.special.path
-;          ^ function
 ;           ^ string.special.path
 
 foo:bar/baz/buzz/
 ; <- variable
 ;  ^ string.special.symbol
-;      ^ function
 ;       ^ string.special.path
-;          ^ function
 ;           ^ string.special.path
-;               ^ function
 
 (def foo 42)
 ; ^ define
