@@ -49,8 +49,8 @@ null
 ; foo
 ; <- comment.line
 
-;.bash
-; string.special.path
+.bash
+; <- string.special.path
 
 ./foo
 ; <- string.special.path

@@ -100,6 +100,7 @@
 (escape_sequence) @constant.character.escape
 
 (path) @string.special.path
+(command) @string.special.path
 
 (number) @constant.numeric.integer
 
