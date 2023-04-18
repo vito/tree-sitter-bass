@@ -135,6 +135,6 @@ module.exports = grammar({
 
     symbol: _ => SYMBOL,
 
-    comment: _ => token(/(;|#!).*/),
+    comment: _ => token(/(;|#!|# ).*/),
   },
 });
